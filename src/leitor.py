@@ -29,7 +29,7 @@ def ler_planilha(caminho):
         }
 
     # ── Primeiras 5 linhas da tabela ───────────────
-    amostra = df.head(5).to_string(index=False)
+    amostra = df.head(20).to_string(index=False)
 
     # ── Monta o resultado final ────────────────────
     resultado = {

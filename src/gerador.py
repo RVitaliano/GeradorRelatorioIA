@@ -4,36 +4,29 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from datetime import datetime
 import re
 
-def formatar_paragrafo(doc, texto):
-    """
-    Detecta se o texto é um título ou parágrafo normal
-    e formata corretamente no Word, removendo Markdown.
-    """
 
-    # Remove asteriscos do Markdown (**texto** ou ***texto***)
+def formatar_paragrafo(doc, texto):
     texto_limpo = re.sub(r'\*+', '', texto).strip()
 
     if not texto_limpo:
         return
 
-    # Detecta títulos numerados: "1.", "2.", "1.1", etc
-    eh_titulo = bool(re.match(r'^\d+[\.\d]*\s', texto_limpo))
-
-    # Detecta títulos com "#"
+    # Títulos com # do Markdown
     if texto_limpo.startswith("#"):
         texto_limpo = texto_limpo.lstrip("#").strip()
-        eh_titulo = True
+        doc.add_heading(texto_limpo, level=2)
+        return
 
-    if eh_titulo:
+    # Só vira título se for "1.", "2." etc e for linha curta
+    eh_titulo_simples = bool(re.match(r'^\d+\.\s+\S', texto_limpo)) and len(texto_limpo) < 60
+
+    if eh_titulo_simples:
         doc.add_heading(texto_limpo, level=2)
     else:
         doc.add_paragraph(texto_limpo)
 
 
 def gerar_relatorio(analise, dados, tipo_relatorio, caminho_saida):
-    """
-    Recebe o texto da IA e os dados da planilha e gera um arquivo .docx
-    """
 
     doc = Document()
 

@@ -8,8 +8,6 @@ Aplicação desktop desenvolvida em Python que lê planilhas Excel ou CSV, anali
 
 <img width="620" height="732" alt="image" src="https://github.com/user-attachments/assets/fcdc903b-6056-4c45-b997-203675b2eeac" />
 
-
-
 - Seleção de planilha via explorador de arquivos
 - Escolha do tipo de relatório (Vendas, RH, Financeiro, Estoque, Marketing)
 - Escolha do idioma (Português, Inglês, Espanhol)
@@ -22,11 +20,12 @@ Aplicação desktop desenvolvida em Python que lê planilhas Excel ou CSV, anali
 
 | Tecnologia | Função |
 |------------|--------|
-| Python 3.14 | Linguagem principal |
+| Python 3.10+ | Linguagem principal |
 | CustomTkinter | Interface gráfica desktop |
 | Pandas + OpenPyXL | Leitura e processamento de planilhas |
 | Groq API (LLaMA 3.3 70B) | Análise dos dados com IA |
 | Python-docx | Geração do relatório Word |
+| python-dotenv | Gerenciamento seguro da chave de API |
 | Threading | Processamento assíncrono |
 
 ---
@@ -45,7 +44,10 @@ cd GeradorRelatorioIA
 ```bash
 python -m venv venv
 
-# Windows
+# Windows (Git Bash)
+source venv/Scripts/activate
+
+# Windows (CMD)
 venv\Scripts\activate
 
 # Linux / Mac
@@ -55,20 +57,21 @@ source venv/bin/activate
 ### 3. Instale as dependências
 
 ```bash
-pip install customtkinter pandas openpyxl groq python-docx
+pip install customtkinter pandas openpyxl groq python-docx python-dotenv
 ```
 
 ### 4. Configure sua chave da API
 
 Acesse [console.groq.com](https://console.groq.com), crie uma conta gratuita e gere uma chave de API.
 
-No arquivo `analisador.py`, substitua:
+Crie um arquivo `.env` na raiz do projeto com base no `.env.example`:
 
-```python
-cliente = Groq(api_key="SUA_CHAVE_GROQ_AQUI")
+```env
+GROQ_API_KEY=sua_chave_aqui
+MODEL_NAME=llama-3.3-70b-versatile
 ```
 
-pela sua chave real.
+> ⚠️ Nunca compartilhe ou versione o arquivo `.env`. Ele já está no `.gitignore`.
 
 ### 5. Execute o projeto
 
@@ -81,12 +84,19 @@ python app.py
 ## 📁 Estrutura do projeto
 
 ```
-gerador-relatorios/
+GeradorRelatorioIA/
 │
-├── app.py          # Interface gráfica principal
-├── leitor.py       # Leitura e processamento da planilha
-├── analisador.py   # Integração com a IA (Groq API)
-├── gerador.py      # Geração do relatório Word
+├── app.py              # Interface gráfica principal e orquestração
+├── src/
+│   ├── __init__.py
+│   ├── leitor.py       # Leitura e processamento da planilha
+│   ├── analisador.py   # Integração com a IA (Groq API)
+│   └── gerador.py      # Geração do relatório Word
+│
+├── .env                # Variáveis de ambiente (não versionado)
+├── .env.example        # Template do .env
+├── requirements.txt    # Dependências do projeto
+├── .gitignore
 └── README.md
 ```
 
@@ -103,12 +113,13 @@ gerador-relatorios/
 
 ---
 
-## 📄 Exemplo de relatório gerado
+## 📄 Estrutura do relatório gerado
 
-O sistema gera um documento Word com:
+O sistema gera um documento Word (.docx) com:
 
+- Cabeçalho com título e data de geração
 - Informações gerais da planilha (total de registros e colunas)
-- Tabela de resumo estatístico (média, mínimo, máximo e total)
+- Tabela de resumo estatístico (média, mínimo, máximo e total por coluna numérica)
 - Análise completa gerada por IA com:
   - Resumo executivo
   - Principais insights
@@ -117,11 +128,30 @@ O sistema gera um documento Word com:
 
 ---
 
+## 📂 Formatos de entrada suportados
+
+| Formato | Extensão |
+|---------|----------|
+| Excel moderno | `.xlsx` |
+| Excel legado | `.xls` |
+| CSV | `.csv` |
+
+---
+
+## 📚 Documentação técnica
+
+| Documento | Descrição |
+|-----------|-----------|
+| [SRS](./docs/SRS_GeradorRelatoriosIA.docx) | Documento de Requisitos de Software |
+| [SDD](./docs/SDD_GeradorRelatoriosIA.docx) | Documento de Design de Software |
+
+---
+
 ## ⚠️ Observações
 
 - A chave da API Groq é **gratuita** — crie a sua em [console.groq.com](https://console.groq.com)
 - O tempo de geração depende do tamanho da planilha e da velocidade da API
-- Compatível com arquivos `.xlsx`, `.xls` e `.csv`
+- O processamento roda em thread separada — a interface não trava durante a geração
 
 ---
 

@@ -2,9 +2,9 @@ import customtkinter as ctk
 from tkinter import filedialog, messagebox
 import threading
 import os
-from leitor import ler_planilha
-from analisador import analisar_dados
-from gerador import gerar_relatorio
+from src.leitor import ler_planilha
+from src.analisador import analisar_dados
+from src.gerador import gerar_relatorio
 
 # ── Configurações visuais ──────────────────────────
 ctk.set_appearance_mode("dark")
