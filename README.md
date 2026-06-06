@@ -138,15 +138,6 @@ O sistema gera um documento Word (.docx) com:
 
 ---
 
-## 📚 Documentação técnica
-
-| Documento | Descrição |
-|-----------|-----------|
-| [SRS](./docs/SRS_GeradorRelatoriosIA.docx) | Documento de Requisitos de Software |
-| [SDD](./docs/SDD_GeradorRelatoriosIA.docx) | Documento de Design de Software |
-
----
-
 ## ⚠️ Observações
 
 - A chave da API Groq é **gratuita** — crie a sua em [console.groq.com](https://console.groq.com)
