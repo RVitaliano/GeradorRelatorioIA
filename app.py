@@ -74,7 +74,7 @@ def processar(caminho_saida):
 
         # Etapa 3 — gera o .docx
         atualizar_status("📝 Gerando relatório Word...")
-        caminho = gerar_relatorio(analise, dados, tipo, caminho_saida)
+        caminho = gerar_relatorio(analise, dados, tipo, idioma, caminho_saida)
 
         # Sucesso!
         atualizar_status(f"✅ Salvo em: {caminho}", cor="lightgreen")

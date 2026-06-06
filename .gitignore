@@ -4,3 +4,6 @@ __pycache__/
 .idea/
 .env
 *.docx
+build
+dist
+app.spec
